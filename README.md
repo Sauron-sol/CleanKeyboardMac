@@ -24,7 +24,13 @@ Download the latest version from the [Releases](https://github.com/Sauron-sol/Cl
 1. Download `CleanKeyboard.dmg` from the latest release
 2. Open the DMG file
 3. Drag `CleanKeyboard.app` to your Applications folder
-4. Launch the application
+4. **Important**: Remove macOS quarantine restrictions:
+   ```bash
+   sudo xattr -rd com.apple.quarantine /Applications/CleanKeyboard.app
+   ```
+5. Launch the application
+
+> **Note**: Step 4 is required because CleanKeyboard is not code-signed. This is safe - you can verify the source code yourself!
 
 ## Usage
 

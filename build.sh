@@ -26,6 +26,12 @@ clang -framework Cocoa -framework ApplicationServices -framework Carbon \
       -o build/CleanKeyboard.app/Contents/MacOS/CleanKeyboard \
       main.m AppDelegate.m KeyboardBlocker.m
 
+# Make executable
+chmod +x build/CleanKeyboard.app/Contents/MacOS/CleanKeyboard
+
+# Remove extended attributes that might cause issues
+xattr -cr build/CleanKeyboard.app 2>/dev/null || true
+
 echo "✅ Compilation completed"
 
 # Create DMG
