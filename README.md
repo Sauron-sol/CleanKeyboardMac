@@ -18,7 +18,7 @@ A simple macOS application to temporarily block your keyboard for safe cleaning.
 ## Download
 
 ### Latest Release
-Download the latest version from the [Releases](../../releases) page.
+Download the latest version from the [Releases](https://github.com/Sauron-sol/CleanKeyboardMac/releases) page.
 
 ### Quick Install
 1. Download `CleanKeyboard.dmg` from the latest release
@@ -57,7 +57,7 @@ CleanKeyboard requires accessibility permissions to function:
 ### Build Steps
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/CleanKeyboardMac.git
+git clone https://github.com/Sauron-sol/CleanKeyboardMac.git
 cd CleanKeyboardMac
 
 # Build the application and create DMG
@@ -112,8 +112,8 @@ The application is designed to be:
 ## Contributing
 
 Contributions are welcome! Please feel free to:
-- 🐛 Report bugs via [Issues](../../issues)
-- 💡 Suggest features via [Issues](../../issues)  
+- 🐛 Report bugs via [Issues](https://github.com/Sauron-sol/CleanKeyboardMac/issues)
+- 💡 Suggest features via [Issues](https://github.com/Sauron-sol/CleanKeyboardMac/issues)  
 - 🔧 Submit pull requests
 - ⭐ Star the repository if you find it useful
 
