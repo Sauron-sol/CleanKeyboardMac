@@ -1,0 +1,62 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build application
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Verify build artifacts
+        run: |
+          # Check if app bundle was created
+          if [ ! -d "build/CleanKeyboard.app" ]; then
+            echo "❌ App bundle not found"
+            exit 1
+          fi
+
+          # Check if executable exists
+          if [ ! -f "build/CleanKeyboard.app/Contents/MacOS/CleanKeyboard" ]; then
+            echo "❌ Executable not found"
+            exit 1
+          fi
+
+          # Check if icon exists
+          if [ ! -f "build/CleanKeyboard.app/Contents/Resources/CleanKeyboard.icns" ]; then
+            echo "❌ Icon not found"
+            exit 1
+          fi
+
+          # Check if DMG was created
+          if [ ! -f "CleanKeyboard.dmg" ]; then
+            echo "❌ DMG not found"
+            exit 1
+          fi
+
+          echo "✅ All build artifacts verified successfully"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: CleanKeyboard-Build-${{ github.sha }}
+          path: |
+            build/CleanKeyboard.app
+            CleanKeyboard.dmg
+          retention-days: 30

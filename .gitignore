@@ -1,0 +1,31 @@
+# Build outputs
+build/
+*.dmg
+
+# Xcode
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+
+# Icon generation artifacts
+*.iconset/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*~
+.#*
+\#*#
+.*.swp
+.*.swo

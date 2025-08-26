@@ -1,0 +1,81 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build application
+        run: |
+          chmod +x build.sh
+          ./build.sh
+
+      - name: Create release artifacts
+        run: |
+          # Create zip for easier download
+          zip -r CleanKeyboard-macOS.zip build/CleanKeyboard.app
+
+          # Get version from tag or use timestamp
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          else
+            VERSION="dev-$(date +%Y%m%d-%H%M%S)"
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CleanKeyboard-DMG
+          path: CleanKeyboard.dmg
+
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CleanKeyboard-ZIP
+          path: CleanKeyboard-macOS.zip
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            CleanKeyboard.dmg
+            CleanKeyboard-macOS.zip
+          body: |
+            ## CleanKeyboard ${{ env.VERSION }}
+
+            ### Download Options
+            - **CleanKeyboard.dmg** - Standard macOS installer (recommended)
+            - **CleanKeyboard-macOS.zip** - Portable app bundle
+
+            ### Installation
+            1. Download `CleanKeyboard.dmg`
+            2. Open the DMG file
+            3. Drag CleanKeyboard to Applications folder
+            4. Launch and grant accessibility permissions when prompted
+
+            ### What's New
+            - See commit history for changes in this release
+
+            ### System Requirements
+            - macOS 10.15 (Catalina) or later
+            - Intel or Apple Silicon Mac
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
