@@ -49,33 +49,57 @@ jobs:
           name: CleanKeyboard-ZIP
           path: CleanKeyboard-macOS.zip
 
-      - name: Create Release
+      - name: Create or Update Release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             CleanKeyboard.dmg
             CleanKeyboard-macOS.zip
+          name: "CleanKeyboard ${{ env.VERSION }}"
+          tag_name: ${{ env.VERSION }}
           body: |
             ## CleanKeyboard ${{ env.VERSION }}
 
-            ### Download Options
+            ### 🎉 **What's New**
+            - Complete keyboard blocking for safe cleaning
+            - Native macOS app with custom icon  
+            - System notifications for status updates
+            - Privacy-focused - no data collection, works offline
+
+            ### 📦 **Download Options**
             - **CleanKeyboard.dmg** - Standard macOS installer (recommended)
             - **CleanKeyboard-macOS.zip** - Portable app bundle
 
-            ### Installation
-            1. Download `CleanKeyboard.dmg`
-            2. Open the DMG file
-            3. Drag CleanKeyboard to Applications folder
-            4. Launch and grant accessibility permissions when prompted
+            ### 🔧 **Installation Instructions**
+            
+            #### Quick Fix for 'App is Damaged' Error:
+            After downloading and installing CleanKeyboard.app to Applications:
+            ```bash
+            sudo xattr -rd com.apple.quarantine /Applications/CleanKeyboard.app
+            ```
 
-            ### What's New
-            - See commit history for changes in this release
+            #### Complete Installation Steps:
+            1. Download **CleanKeyboard.dmg** 
+            2. Open DMG and drag app to Applications
+            3. Run the command above to remove quarantine
+            4. Launch CleanKeyboard from Applications
+            5. Grant accessibility permissions when prompted
 
-            ### System Requirements
+            ### 🔒 **System Requirements**
             - macOS 10.15 (Catalina) or later
             - Intel or Apple Silicon Mac
+            - Administrator access for quarantine removal
+
+            ### 🆘 **Need Help?**
+            - Check the detailed [Installation Instructions](https://github.com/Sauron-sol/CleanKeyboardMac/blob/main/INSTALL_INSTRUCTIONS.md)
+            - Report issues on the [Issues page](https://github.com/Sauron-sol/CleanKeyboardMac/issues)
+
+            ---
+            **⚠️ Note**: CleanKeyboard is not code-signed, so macOS will show security warnings. The quarantine removal command above is safe and necessary for the app to function properly.
           draft: false
           prerelease: false
+          make_latest: true
+          generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
