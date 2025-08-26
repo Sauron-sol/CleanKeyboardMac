@@ -6,6 +6,12 @@ on:
       - "v*"
   workflow_dispatch:
 
+# Permissions needed for the workflow
+permissions:
+  contents: write
+  actions: read
+  security-events: write
+
 jobs:
   build:
     runs-on: macos-latest
@@ -72,7 +78,7 @@ jobs:
             - **CleanKeyboard-macOS.zip** - Portable app bundle
 
             ### 🔧 **Installation Instructions**
-            
+
             #### Quick Fix for 'App is Damaged' Error:
             After downloading and installing CleanKeyboard.app to Applications:
             ```bash

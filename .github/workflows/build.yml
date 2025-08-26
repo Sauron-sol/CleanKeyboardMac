@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+# Permissions for the workflow
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   build:
     runs-on: macos-latest
